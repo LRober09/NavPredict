@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './components/App';
 
 import "bootstrap/dist/css/bootstrap.css";
+import "./assets/icons/open-iconic-master/font/css/open-iconic-bootstrap.scss";
+import "./assets/stylesheets/global.scss";
 
 import * as serviceWorker from './serviceWorker';
 
