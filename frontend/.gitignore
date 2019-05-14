@@ -3,6 +3,9 @@
 # ide
 /.idea
 
+# environment
+.env.local
+
 # dependencies
 /node_modules
 /.pnp
