@@ -1,27 +1,37 @@
 const express = require('express');
+const http = require('http');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongodb = require('./mongo');
+const mongodb = require('./db/mongo');
+const router = require('./router');
 const app = express();
 const port = 8000;
 
-const server = {};
-
-server.initRoutes = () => {
-    app.get('/', (req, res) => res.send("Up!"));
+const server = {
+    mongoClient: null,
 };
 
-server.initDb = () => {
-    mongodb.init((client) => {
-
-    })
+server.configMongo = (callback) => {
+    mongodb.init(() => {
+        callback();
+    });
 };
+
+server.configHttpServer = (app) => {
+    return http.createServer(app);
+};
+
 
 server.initServer = () => {
     const app = express();
+    app.use(bodyParser.urlencoded({extended: false}));
+    app.use(cors());
 
-    server.initRoutes();
+    router.initRoutes(app);
 
-    app.listen(port, () => console.log("App listening on port " + 3000));
+    server.configMongo(() => {
+        app.listen(port, () => console.log("App listening on port " + port));
+    });
 };
 
-export default server;
+module.exports = server;

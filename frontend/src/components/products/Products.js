@@ -17,7 +17,7 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        const url = 'https://3eac1be0-0f8a-4a79-9f8d-a36a65fdbff6.mock.pstmn.io' + '/products';
+        const url = 'http://localhost:8000' + '/products';
         console.log("Url: ", url);
         fetch(url, {
             method: 'GET'

@@ -1,8 +1,15 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import NavLink from './NavLink';
 
 import "./navbar.scss";
 
 class Navbar extends Component {
+
+    handleNav = (path) => {
+        this.props.history.push(path);
+    };
+
     render() {
 
         return (
@@ -16,12 +23,8 @@ class Navbar extends Component {
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
-                            <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="/products">Products</a>
-                        </li>
+                        <NavLink active handleNav={() => this.handleNav('/')}>Home</NavLink>
+                        <NavLink handleNav={() => this.handleNav('/products')}>Products</NavLink>
                         <li className="nav-item">
                             <span className="nav-link">About Us</span>
                         </li>
@@ -40,4 +43,4 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
