@@ -17,12 +17,10 @@ class Products extends Component {
     }
 
     componentDidMount() {
-        const url = 'http://localhost:8000' + '/products';
-        console.log("Url: ", url);
+        const url = 'http://localhost:8000/products';
         fetch(url, {
             method: 'GET'
         }).then((response) => {
-            console.log(response);
             return response.json();
         }).then((data) => {
             this.setState({products: data})
@@ -34,7 +32,7 @@ class Products extends Component {
 
         const productDisplay = products.length > 0 ? products.map((product, i) => {
             return (
-                <Col key={i} w={4}>
+                <Col w={4} key={i}>
                     <ProductCard product={product}/>
                 </Col>
             )
@@ -43,9 +41,6 @@ class Products extends Component {
                 <Loader/>
             </Col>
         );
-
-        console.log("Products: ", products);
-        console.log("Product cards: ", productDisplay);
 
         return (
             <Container>

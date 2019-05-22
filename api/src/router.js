@@ -1,12 +1,19 @@
 const authenticator = require('./handlers/authenticator');
 
-const ProductsHandler = require('./handlers/productsHandler');
+const ProductsHandler = require('./handlers/products/productsHandler');
+const ProductsDetailHandler = require('./handlers/products/productsDetailHandler');
 const DefaultHandler = require('./handlers/defaultHandler');
 
 const endpoints = {
     products: {
         endpoint: '/products',
         handler: ProductsHandler,
+        methods: ['get'],
+        authenticated: false,
+    },
+    productsDetail: {
+        endpoint: '/products/:productId',
+        handler: ProductsDetailHandler,
         methods: ['get'],
         authenticated: false,
     },

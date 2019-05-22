@@ -9,6 +9,7 @@ mongodb.init = (callback) => {
 
     MongoClient.connect(uri, {useNewUrlParser: true}, (err, client) => {
         mongodb.client = client;
+        mongodb.db = client.db('test_store');
         callback();
     });
 };

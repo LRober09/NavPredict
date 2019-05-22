@@ -51,7 +51,10 @@ class Button extends Component {
 
 Button.propTypes = {
     block: PropTypes.bool,
-    children: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+    ]),
     color: PropTypes.oneOf([
         'primary',
         'secondary',

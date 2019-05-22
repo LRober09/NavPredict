@@ -1,8 +1,7 @@
 const mongo = require('./mongo');
 
 const getProducts = (callback) => {
-    const db = mongo.client.db('test_store');
-    db.collection('products').find().toArray((err, result) => {
+    mongo.db.collection('products').find().toArray((err, result) => {
        if (err) {
            callback(err);
        } else {
@@ -11,5 +10,15 @@ const getProducts = (callback) => {
     });
 };
 
+const getProductsDetail = (productId, callback) => {
+    mongo.db.collection('products').findOne({id: productId}, (err, result) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, result);
+        }
+    })
+};
 
-module.exports = {getProducts};
+
+module.exports = {getProducts, getProductsDetail};
