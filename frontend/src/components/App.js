@@ -1,14 +1,14 @@
 import React from 'react';
-
+import {AppProvider} from "./Context";
 import Router from './router/Router';
 
 
 function App() {
-  return (
-    <React.Fragment>
-        <Router/>
-    </React.Fragment>
-  );
+    return (
+        <AppProvider>
+            <Router/>
+        </AppProvider>
+    );
 }
 
 export default App;
