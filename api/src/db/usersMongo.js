@@ -45,10 +45,10 @@ const getUser = (token, callback) => {
 };
 
 
-const userExists = (email, callback) => {
+const getUserByEmail = (email, callback) => {
     mongo.db.collection('users').findOne({email: email}, (err, result) => {
         if (!err) {
-            callback(null, !!(result && result.email));
+            callback(null, result);
         } else {
             callback(err);
         }
@@ -57,8 +57,8 @@ const userExists = (email, callback) => {
 
 
 const loginUser = (email, passwordHash, token, callback) => {
-    mongo.db.collection('users').findOne({email: email}, (err, result) => {
-        if (!err && result.passwordHash === passwordHash) {
+    getUserByEmail(email, (err, result) => {
+        if (!err && result && result.passwordHash === passwordHash) {
             // create and update token, callback token
             mongo.db.collection('users').updateOne({email: email}, {
                 $set: {
@@ -82,11 +82,11 @@ const loginUser = (email, passwordHash, token, callback) => {
 const authenticateUser = (token, callback) => {
     mongo.db.collection('users').findOne({token: token}, (err, result) => {
         if (!err) {
-            callback(null, result !==)
+            callback(null, result !== null);
         } else {
             callback(err);
         }
     });
 };
 
-module.exports = {loginUser, createUser, getUser, userExists};
+module.exports = {loginUser, createUser, getUser, getUserByEmail, authenticateUser};

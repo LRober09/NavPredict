@@ -1,5 +1,6 @@
-const authenticator = require('./handlers/authenticator');
+const upload = require('multer')();
 
+const authenticator = require('./handlers/authenticator');
 const ProductsHandler = require('./handlers/products/productsHandler');
 const ProductsDetailHandler = require('./handlers/products/productsDetailHandler');
 const UsersHandler = require('./handlers/users/usersHandler');
@@ -47,11 +48,13 @@ const routes = (app) => {
 
         methods.forEach((method) => {
             app[method](path, (req, res, next) => {
-                if (authenticated) {
-                    authenticator(endpoint.handler[method], req, res, next);
-                } else {
-                    endpoint.handler[method](req, res, next);
-                }
+                setTimeout(() => {
+                    if (authenticated) {
+                        authenticator(endpoint.handler[method], req, res, next);
+                    } else {
+                        endpoint.handler[method](req, res, next);
+                    }
+                }, 1000);
             });
         })
     });

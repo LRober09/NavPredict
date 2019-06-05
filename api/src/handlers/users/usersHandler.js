@@ -4,12 +4,11 @@ const usersMongo = require('../../db/usersMongo');
 
 const createUserHandler = (req, res) => {
     // Get products from mongodb
-    console.log(req.body);
     const user = req.body;
     if (user.email && user.password && user.phone) {
         const passwordHash = util.hashPassword(user.password);
-        usersMongo.userExists(user.email, (userExistsDbErr, result) => {
-            if (!userExistsDbErr && result === false) {
+        usersMongo.getUserByEmail(user.email, (userExistsDbErr, result) => {
+            if (!userExistsDbErr && result === null) {
                 usersMongo.createUser({
                     email: user.email,
                     passwordHash: passwordHash,

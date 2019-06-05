@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import NavLink from './NavLink';
+import PropTypes from 'prop-types';
 
 import "./navbar.scss";
 
@@ -11,7 +12,7 @@ class Navbar extends Component {
     };
 
     render() {
-
+        const {toggleAuthModal} = this.props;
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-container">
                 <a className="navbar-brand text-primary" href="/">Test Store</a>
@@ -34,7 +35,7 @@ class Navbar extends Component {
                             <span className="nav-link"><span className="oi oi-cart"/> Cart (0)</span>
                         </li>
                         <li className="nav-item">
-                            <span className="nav-link">Login</span>
+                            <span className="nav-link" onClick={toggleAuthModal}>Login/Register</span>
                         </li>
                     </ul>
                 </div>
@@ -42,5 +43,9 @@ class Navbar extends Component {
         )
     }
 }
+
+Navbar.propTypes = {
+    toggleAuthModal: PropTypes.func,
+};
 
 export default withRouter(Navbar);
