@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import store from 'store';
 
-import {getUser, loginUser, registerUser} from '../../requests/user';
+import {loginUser, registerUser} from '../../requests/user';
 
 import './authModal.scss';
 
