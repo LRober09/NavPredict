@@ -60,13 +60,20 @@ const loginUser = (email, passwordHash, token, callback) => {
     getUserByEmail(email, (err, result) => {
         if (!err && result && result.passwordHash === passwordHash) {
             // create and update token, callback token
+            console.log("Updating token to:", token);
             mongo.db.collection('users').updateOne({email: email}, {
                 $set: {
                     token: token,
                 }
             }, (err) => {
                 if (!err) {
-                    callback(null, result);
+                    getUser(token, (getUserErr, getUserResult) => {
+                        if (!err && getUserResult) {
+                            callback(null, getUserResult);
+                        } else {
+                            callback("Error while updating user token - during re-fetch of user", err);
+                        }
+                    });
                 } else {
                     callback(err);
                 }
