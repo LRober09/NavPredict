@@ -7,6 +7,7 @@ import Products from '../products/Products';
 import Navbar from "../navbar/Navbar";
 import AuthModal from '../authentication/AuthModal';
 import ProductDetail from "../products/ProductDetail";
+import {AppContextConsumer} from '../Context';
 
 class Router extends Component {
     constructor(props) {
@@ -18,14 +19,20 @@ class Router extends Component {
     }
 
     toggleAuthModal = () => {
-      this.setState({authModalOpen: !this.state.authModalOpen});
+        this.setState({authModalOpen: !this.state.authModalOpen});
     };
 
     render() {
         return (
             <BrowserRouter>
                 <Route path="/" component={() => <Navbar toggleAuthModal={this.toggleAuthModal}/>}/>
-                <Route path="/" component={() => <AuthModal isOpen={this.state.authModalOpen} onClose={this.toggleAuthModal}/>}/>
+                <Route path="/" component={() => (
+                    <AppContextConsumer>
+                        {({setUser}) => (
+                            <AuthModal isOpen={this.state.authModalOpen} onClose={this.toggleAuthModal} setUser={setUser}/>
+                        )}
+                    </AppContextConsumer>
+                )}/>
                 <Route path="/" exact component={Home}/>
                 <Route path="/products" exact component={Products}/>
                 <Route path="/products/:productId" component={ProductDetail}/>

@@ -66,7 +66,7 @@ const loginUser = (email, passwordHash, token, callback) => {
                 }
             }, (err) => {
                 if (!err) {
-                    callback(null, {token: token});
+                    callback(null, result);
                 } else {
                     callback(err);
                 }
@@ -80,7 +80,12 @@ const loginUser = (email, passwordHash, token, callback) => {
 };
 
 const authenticateUser = (token, callback) => {
+    if (token === null || token === undefined) {
+        callback(null, false);
+    }
+
     mongo.db.collection('users').findOne({token: token}, (err, result) => {
+        console.log("result", result);
         if (!err) {
             callback(null, result !== null);
         } else {

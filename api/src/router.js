@@ -23,7 +23,7 @@ const endpoints = {
     users: {
         endpoint: '/users',
         handler: UsersHandler,
-        methods: ['post'],
+        methods: ['get', 'post'],
         authenticated: false,
     },
     login: {

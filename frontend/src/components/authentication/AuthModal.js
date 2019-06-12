@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import store from 'store';
 
-import {loginUser, registerUser} from '../../requests/user';
+import {getUser, loginUser, registerUser} from '../../requests/user';
 
 import './authModal.scss';
 
@@ -37,6 +37,21 @@ class AuthModal extends Component {
         });
     };
 
+    loginFetchUser = (loginObject) => {
+        loginUser(loginObject, (result) => {
+            store.set('token', result.token);
+            store.set('email', result.email);
+            this.props.setUser(result);
+            this.props.onClose();
+        }, (err) => {
+            this.setState({loginError: err});
+        }, () => {
+            this.setState({isSubmitting: true});
+        }, () => {
+            this.setState({isSubmitting: false});
+        });
+    };
+
     onLogin = (e) => {
         e.preventDefault();
         const {loginEmail, loginPassword} = this.state;
@@ -46,16 +61,7 @@ class AuthModal extends Component {
             password: loginPassword,
         };
 
-        loginUser(loginObject, (result) => {
-            store.set('token', result.token);
-            this.props.onClose();
-        }, (err) => {
-            this.setState({loginError: err});
-        }, () => {
-            this.setState({isSubmitting: true});
-        }, () => {
-            this.setState({isSubmitting: false});
-        });
+        this.loginFetchUser(loginObject);
     };
 
     onRegister = (e) => {
@@ -78,7 +84,10 @@ class AuthModal extends Component {
             };
 
             registerUser(newUser, (result) => {
-                this.props.onClose();
+                this.loginFetchUser({
+                    email: registerEmail,
+                    password: registerPassword,
+                });
             }, (err) => {
                 this.setState({registerError: err});
             }, () => {
@@ -94,7 +103,7 @@ class AuthModal extends Component {
         const {registerError, loginError, passwordMatchErr, isSubmitting} = this.state;
 
         const loginEmailClass = classNames('form-control', {
-           'is-invalid': loginError,
+            'is-invalid': loginError,
         });
 
         const registerEmailClass = classNames('form-control', {
