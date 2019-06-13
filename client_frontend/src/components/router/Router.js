@@ -8,6 +8,7 @@ import Navbar from "../navbar/Navbar";
 import AuthModal from '../authentication/AuthModal';
 import ProductDetail from "../products/ProductDetail";
 import {AppContextConsumer} from '../Context';
+import Settings from "../settings/Settings";
 
 class Router extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class Router extends Component {
                 <Route path="/" exact component={Home}/>
                 <Route path="/products" exact component={Products}/>
                 <Route path="/products/:productId" component={ProductDetail}/>
+                <Route path="/settings" component={Settings}/>
             </BrowserRouter>
         )
     }

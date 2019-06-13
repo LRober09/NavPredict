@@ -28,8 +28,6 @@ class Products extends Component {
     }
 
     render() {
-        // const {products} = this.state;
-
         return (
             <AppContextConsumer>
                 {({products}) => (
