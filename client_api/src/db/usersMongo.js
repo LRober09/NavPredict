@@ -60,7 +60,6 @@ const loginUser = (email, passwordHash, token, callback) => {
     getUserByEmail(email, (err, result) => {
         if (!err && result && result.passwordHash === passwordHash) {
             // create and update token, callback token
-            console.log("Updating token to:", token);
             mongo.db.collection('users').updateOne({email: email}, {
                 $set: {
                     token: token,
@@ -86,13 +85,30 @@ const loginUser = (email, passwordHash, token, callback) => {
     });
 };
 
+const logoutUser = (token, callback) => {
+    getUser(token, (err, result) => {
+        if (!err && result) {
+            mongo.db.collection('users').updateOne({token: token}, {
+                $set: {
+                    token: null,
+                }
+            }, (err) => {
+               if (!err) {
+                   callback(null);
+               } else {
+                   callback(err);
+               }
+            });
+        }
+    });
+};
+
 const authenticateUser = (token, callback) => {
     if (token === null || token === undefined) {
         callback(null, false);
     }
 
     mongo.db.collection('users').findOne({token: token}, (err, result) => {
-        console.log("result", result);
         if (!err) {
             callback(null, result !== null);
         } else {
@@ -101,4 +117,4 @@ const authenticateUser = (token, callback) => {
     });
 };
 
-module.exports = {loginUser, createUser, getUser, getUserByEmail, authenticateUser};
+module.exports = {loginUser, logoutUser, createUser, getUser, getUserByEmail, authenticateUser};

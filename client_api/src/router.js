@@ -1,10 +1,9 @@
-const upload = require('multer')();
-
 const authenticator = require('./handlers/authenticator');
 const ProductsHandler = require('./handlers/products/productsHandler');
 const ProductsDetailHandler = require('./handlers/products/productsDetailHandler');
 const UsersHandler = require('./handlers/users/usersHandler');
 const LoginHandler = require('./handlers/users/loginHandler');
+const LogoutHandler = require('./handlers/users/logoutHandler');
 const DefaultHandler = require('./handlers/defaultHandler');
 
 const endpoints = {
@@ -29,6 +28,12 @@ const endpoints = {
     login: {
         endpoint: '/login',
         handler: LoginHandler,
+        methods: ['post'],
+        authenticated: false,
+    },
+    logout: {
+        endpoint: '/logout',
+        handler: LogoutHandler,
         methods: ['post'],
         authenticated: false,
     }

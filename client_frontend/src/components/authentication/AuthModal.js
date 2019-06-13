@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import store from 'store';
 
+import Button from '../common/Button';
+import {setUserId} from "../../telemetry/context/TelemetryGlobal";
+
 import {loginUser, registerUser} from '../../requests/user';
 
 import './authModal.scss';
+import TelemButton from "../common/TelemButton";
+import {BUTTON_TELEMETRY} from "../../util/telemetryOptions";
 
 
 class AuthModal extends Component {
@@ -40,8 +45,8 @@ class AuthModal extends Component {
     loginFetchUser = (loginObject) => {
         loginUser(loginObject, (result) => {
             store.set('token', result.token);
-            store.set('email', result.email);
             this.props.setUser(result);
+            setUserId(result._id);
             this.props.onClose();
         }, (err) => {
             this.setState({loginError: err});
@@ -141,8 +146,14 @@ class AuthModal extends Component {
                                     <label htmlFor="loginPassword">Password</label>
                                     <input type="password" className="form-control" id="loginPassword"
                                            placeholder="Password" onChange={this.onFormFieldChanged} required/>
+
                                 </div>
-                                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Log in</button>
+                                <TelemButton type="submit"
+                                             className="btn btn-primary"
+                                             disabled={isSubmitting}
+                                             {...BUTTON_TELEMETRY.LOGIN_BUTTON}>
+                                    Log in
+                                </TelemButton>
                             </form>
                             <hr/>
                             <form onSubmit={this.onRegister}>
@@ -196,7 +207,6 @@ class AuthModal extends Component {
             <div/>
     }
 }
-
 
 AuthModal.propTypes = {
     isOpen: PropTypes.bool,

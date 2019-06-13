@@ -12,15 +12,16 @@ class AppProvider extends React.Component {
             this.setState({user: user})
         };
 
+        this.setProducts = (products) => {
+            this.setState({products: products});
+        };
 
         this.state = {
             user: {},
-            cart: [],
-            testVal: "hello world!",
+            products: [],
             setUser: this.setUser,
+            setProducts: this.setProducts,
         };
-
-
     }
 
     render() {

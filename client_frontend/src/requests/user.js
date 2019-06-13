@@ -1,77 +1,31 @@
-import {usersUrl, loginUrl} from "./variables";
+import {usersUrl, loginUrl, logoutUrl} from "./variables";
+import {fetchWrapper, fetchWrapperAuthenticated} from "./fetchWrapper";
+import {setUserId} from "../telemetry/context/TelemetryGlobal";
 
 const loginUser = (loginObject, onSuccess, onError, onStart, onComplete) => {
-    fetchWrapper(loginObject, loginUrl, "POST", onSuccess, onError, onStart, onComplete);
+    fetchWrapper(loginObject, loginUrl, 'POST', (result) => {
+        setUserId(result._id);
+        onSuccess(result);
+    }, onError, onStart, onComplete);
+};
+
+
+const logoutUser = (token, onSuccess, onError, onStart, onComplete) => {
+    fetchWrapperAuthenticated(token, null, logoutUrl, 'POST', onSuccess, onError, onStart, onComplete);
 };
 
 
 const getUser = (token, onSuccess, onError, onStart, onComplete) => {
-    fetchWrapperAuthenticated(token, null, usersUrl, "GET", onSuccess, onError, onStart, onComplete);
+    fetchWrapperAuthenticated(token, null, usersUrl, 'GET', (result) => {
+        setUserId(result._id);
+        onSuccess(result);
+    }, onError, onStart, onComplete);
 };
 
 
 const registerUser = (newUserObject, onSuccess, onError, onStart, onComplete) => {
-    fetchWrapper(newUserObject, usersUrl, "POST", onSuccess, onError, onStart, onComplete);
-};
-
-const fetchWrapper = (body, url, method, onSuccess, onError, onStart, onComplete) => {
-    onStart && onStart();
-
-    const init = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
-    if (body) {
-        init.body = JSON.stringify(body);
-    }
-
-    fetch(url, init).then((res) => {
-        return res.json();
-    }).then((result) => {
-        onComplete && onComplete();
-
-        if (result.Error) {
-            throw new Error(result.Error).message;
-        } else {
-            onSuccess && onSuccess(result);
-        }
-    }).catch((err) => {
-        console.error("Error: ", err);
-        onError && onError(err);
-    });
-};
-
-const fetchWrapperAuthenticated = (token, body, url, method, onSuccess, onError, onStart, onComplete) => {
-    onStart && onStart();
-    const init = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'token': token,
-        },
-    };
-
-    if (body) {
-        init.body = JSON.stringify(body);
-    }
-
-    fetch(url, init).then((res) => {
-        return res.json();
-    }).then((result) => {
-        onComplete && onComplete();
-        if (result.Error) {
-            throw new Error(result.Error).message;
-        } else {
-            onSuccess && onSuccess(result);
-        }
-    }).catch((err) => {
-        console.error("Error: ", err);
-        onError && onError(err);
-    });
+    fetchWrapper(newUserObject, usersUrl, 'POST', onSuccess, onError, onStart, onComplete);
 };
 
 
-export {getUser, loginUser, registerUser};
+export {getUser, loginUser, logoutUser, registerUser};

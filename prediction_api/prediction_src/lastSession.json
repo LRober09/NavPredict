@@ -1,0 +1,22 @@
+{
+    "_id": "5d01a6599f851437586d5c31",
+    "session": {
+        "_id": "5d01a6593f7fd03f4c95df30",
+        "intentLabel": "login",
+        "interactions": [
+            {
+                "actionType": "click",
+                "controlId": "login_button",
+                "controlType": "mutation",
+                "dateTime": "2019-06-13T01:26:49.347Z",
+                "intent": {
+                    "completion": true,
+                    "label": "login"
+                }
+            }
+        ],
+        "sessionEndDateTime": "2019-06-13T01:26:49.347Z",
+        "sessionId": "fZPOKTYDoqmMDVYRnmof",
+        "userId": "5cff016c651dfd3c088cf7bf"
+    }
+}

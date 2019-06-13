@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+import {AppContext, AppContextConsumer} from "../Context";
+import {fetchProducts} from "../../requests/products";
+
 import Container from '../layout/Container';
 import Row from '../layout/Row';
 import Col from '../layout/Col';
@@ -11,50 +14,53 @@ class Products extends Component {
         super(props);
 
         this.state = {
-            products: [],
+            isLoading: true,
             hasError: false,
         }
     }
 
     componentDidMount() {
-        const url = 'http://localhost:8000/products';
-        fetch(url, {
-            method: 'GET'
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            this.setState({products: data})
-        })
+        fetchProducts((result) => {
+            this.context.setProducts(result);
+        }, (err) => {
+            console.error("Error:", err);
+        });
     }
 
     render() {
-        const {products} = this.state;
-
-        const productDisplay = products.length > 0 ? products.map((product, i) => {
-            return (
-                <Col w={4} key={i}>
-                    <ProductCard product={product}/>
-                </Col>
-            )
-        }) : (
-            <Col w={12}>
-                <Loader/>
-            </Col>
-        );
+        // const {products} = this.state;
 
         return (
-            <Container>
-                <Row>
-                    <Col>
-                        <h2 className="display-4">All Products</h2>
-                    </Col>
-                </Row>
-                <Row>
-                    {productDisplay}
-                </Row>
-            </Container>
+            <AppContextConsumer>
+                {({products}) => (
+                    <Container>
+                        <Row>
+                            <Col>
+                                <h2 className="display-4">All Products</h2>
+                            </Col>
+                        </Row>
+                        <Row>
+                            {
+                                products.length > 0 ? products.map((product, i) => {
+                                    return (
+                                        <Col w={4} key={i}>
+                                            <ProductCard product={product}/>
+                                        </Col>
+                                    )
+                                }) : (
+                                    <Col w={12}>
+                                        <Loader/>
+                                    </Col>
+                                )
+                            }
+                        </Row>
+                    </Container>
+                )}
+            </AppContextConsumer>
         )
     }
 }
+
+Products.contextType = AppContext;
 
 export default Products;

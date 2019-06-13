@@ -7,7 +7,6 @@ const handleLogin = (req, res) => {
     const email = req.body.email;
     const token = util.generateToken();
     usersMongo.loginUser(email, passwordHash, token, (err, result) => {
-        console.log("Got result:", result);
         if (!err) {
             rUtil.endResponse(rUtil.codes.OK, result, res);
         } else {
