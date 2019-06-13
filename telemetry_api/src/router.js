@@ -7,7 +7,7 @@ const endpoints = {
     session: {
         endpoint: '/sessions',
         handler: SessionsHandler,
-        methods: ['post'],
+        methods: ['post', 'patch'],
         authenticated: false,
     }
 };

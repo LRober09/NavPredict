@@ -9,10 +9,10 @@ const withTelemetry = (WrappedComponent) => {
             <TelemetryContextConsumer>
                 {state => <WrappedComponent
                     onInteraction={
-                        (handler) => state.onInteraction(
+                        (handler, controlIdSuffix) => state.onInteraction(
                             'withTelemetry',
                             handler,
-                            controlId,
+                            controlId + (controlIdSuffix ? '_' + controlIdSuffix : ''),
                             controlType,
                             actionType,
                             intent

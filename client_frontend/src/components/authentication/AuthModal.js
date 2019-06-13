@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import store from 'store';
 
-import Button from '../common/Button';
 import {setUserId} from "../../telemetry/context/TelemetryGlobal";
 
 import {loginUser, registerUser} from '../../requests/user';
@@ -11,6 +10,7 @@ import {loginUser, registerUser} from '../../requests/user';
 import './authModal.scss';
 import TelemButton from "../common/TelemButton";
 import {BUTTON_TELEMETRY} from "../../util/telemetryOptions";
+import TelemGeneric from "../common/TelemGeneric";
 
 
 class AuthModal extends Component {
@@ -125,8 +125,11 @@ class AuthModal extends Component {
                     <div className="card authModal-container">
                         <div className="card-header">
                             Login/Register
-                            <span className='float-right' style={{cursor: "pointer"}} onClick={onClose}><span
-                                className="oi oi-circle-x"/></span>
+                            <TelemGeneric handler={onClose} {...BUTTON_TELEMETRY.CLOSE_AUTH_BUTTON}>
+                                    <span className='float-right' style={{cursor: "pointer"}}>
+                                        <span className="oi oi-circle-x"/>
+                                    </span>
+                            </TelemGeneric>
                         </div>
                         <div className="card-body authModal-body">
                             <form onSubmit={this.onLogin}>
@@ -196,9 +199,9 @@ class AuthModal extends Component {
                                         )
                                     }
                                 </div>
-                                <button type="submit" className="btn btn-primary"
-                                        disabled={isSubmitting}>Register
-                                </button>
+                                <TelemButton type="submit" className="btn btn-primary"
+                                             disabled={isSubmitting} {...BUTTON_TELEMETRY.REGISTER_BUTTON}>Register
+                                </TelemButton>
                             </form>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ import {AppContext} from '../Context';
 
 import "./navbar.scss";
 import TelemNavLink from "../common/TelemNavLink";
+import TelemGeneric from "../common/TelemGeneric";
 import {BUTTON_TELEMETRY} from "../../util/telemetryOptions";
 
 class Navbar extends Component {
@@ -111,7 +112,12 @@ class Navbar extends Component {
                                                 <span className="nav-link" onClick={this.logoutUser}>{user.email}</span>
                                             </li>
                                         ) : (
-                                            <span className="nav-link" onClick={toggleAuthModal}>Login/Register</span>
+                                            <li className="nav-item">
+                                                <TelemGeneric handler={toggleAuthModal}
+                                                              {...BUTTON_TELEMETRY.DISPLAY_AUTH_BUTTON}>
+                                                    <span className="nav-link">Login/Register</span>
+                                                </TelemGeneric>
+                                            </li>
                                         )
                                     }
                                 </React.Fragment>

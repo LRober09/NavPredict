@@ -9,7 +9,8 @@ const requestCluster = (session, onSuccess, onError, onStart, onComplete) => {
     }).then((response) => {
         onSuccess && onSuccess(response.data);
     }).catch((err) => {
-        onError && onError(err);
+        console.log('Error: ', err);
+        onError && onError('Error during request to prediction API (clustering)');
     }).finally(() => {
         onComplete && onComplete();
     });

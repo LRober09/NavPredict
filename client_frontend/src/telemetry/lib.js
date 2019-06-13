@@ -1,25 +1,28 @@
-import {generateNewInteraction, appendSession, endSession} from "./context/TelemetryGlobal";
+import {generateNewInteraction, updateSession, closeSession} from "./context/TelemetryGlobal";
 
 const onInteraction = (provider, caller, handler, controlId, controlType, actionType, intent) => {
     handler && handler();
 
+    // Make sure developers are not manually trying to interact with the telemetry state
     if (['withTelemetry'].indexOf(caller) === -1) {
-        console.warn("You are modify the internal telemetry state from outside one of its components. This is not recommended!");
+        console.warn("You are trying to modify the internal telemetry state from outside one of its components. This is not recommended!");
     }
 
     const interaction = generateNewInteraction(controlId, controlType, actionType, intent);
 
-    appendSession(interaction);
-    console.log("Appended: ", interaction);
+
+    console.log("Updated: ", interaction);
 
     if (intent.completion) {
-        endSession();
+        closeSession(interaction);
+    } else {
+        updateSession(interaction);
     }
 };
 
 
-const onPrediction = (prediction) => {
-
-};
+// const onPrediction = (prediction) => {
+//
+// };
 
 export {onInteraction};

@@ -1,13 +1,13 @@
 const rUtil = require('../util/rUtil');
 const util = require('../util/util');
 const sessionsMongo = require('../db/sessionsMongo');
-const requestCluster = require('../requests/prediction').requestCluster;
+const requestCluster = require('../requests/predictionRequests').requestCluster;
 
 
 const addSessionHandler = (req, res) => {
     const session = req.body;
     if (session) {
-        sessionsMongo.addSession(session, (err) => {
+        sessionsMongo.closeSession(session, (err) => {
             if (!err) {
 
                 const intentControl = session.interactions.sort((a, b) => {
@@ -39,8 +39,27 @@ const addSessionHandler = (req, res) => {
     }
 };
 
+const updateSessionHandler = (req, res) => {
+    const session = req.body;
+
+    if (session) {
+        sessionsMongo.updateSession(session, (err) => {
+           if (!err) {
+               requestCluster(session, (result) => {
+                  rUtil.endResponse(rUtil.codes.OK, result, res);
+               }, (clusterErr) => {
+                   rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: clusterErr})
+               });
+           } else {
+               rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: err}, res);
+           }
+        });
+    }
+};
+
 const SessionsHandler = {
     post: addSessionHandler,
+    patch: updateSessionHandler,
 };
 
 module.exports = SessionsHandler;

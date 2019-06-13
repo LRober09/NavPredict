@@ -1,13 +1,25 @@
 const mongo = require('./mongo');
 
-const addSession = (session, callback) => {
-    mongo.db.collection('sessions').insertOne(session, null, (err) => {
+const closeSession = (session, callback) => {
+    mongo.db.collection('sessions').replaceOne({sessionId: session.sessionId}, session, {upsert: true}, (err) => {
         if (!err) {
             callback(null);
         } else {
+            console.log('Error: ', err);
             callback('Error while inserting session');
         }
     });
+};
+
+const updateSession = (session, callback) => {
+    mongo.db.collection('sessions').updateOne({sessionId: session.sessionId}, {
+        $set: {...session},
+    }, {upsert: true}).then(() => {
+        callback(null);
+    }).catch((err) => {
+        console.log('Error: ', err);
+        callback('Error while updating session');
+    })
 };
 
 const addIntent = (intent, callback) => {
@@ -25,4 +37,4 @@ const addIntent = (intent, callback) => {
     });
 };
 
-module.exports = {addSession, addIntent};
+module.exports = {closeSession, updateSession, addIntent};
