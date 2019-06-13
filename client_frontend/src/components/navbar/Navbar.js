@@ -81,18 +81,8 @@ class Navbar extends Component {
                                       {...BUTTON_TELEMETRY.NAV_PRODUCTS_LINK}>
                             Products
                         </TelemNavLink>
-                        <li className="nav-item">
-                            <span className="nav-link">Social</span>
-                        </li>
-                        <li className="nav-item">
-                            <span className="nav-link">Secret Features</span>
-                        </li>
-                        <li className="nav-item">
-                            <span className="nav-link">About Us</span>
-                        </li>
                     </ul>
                     <ul className="navbar-nav ml-auto">
-
                         {
                             this.state.isFetchingUser ? (
                                 <li className="nav-item">
@@ -100,17 +90,26 @@ class Navbar extends Component {
                                 </li>
                             ) : (
                                 <React.Fragment>
-                                    <li className="nav-item">
-                                        <span className="nav-link">
-                                            <span className="oi oi-cart" style={{marginRight: "5px"}}/>
-                                            Cart ({user.profile ? user.profile.cart.length : 0})
-                                        </span>
-                                    </li>
                                     {
                                         user.email ? (
-                                            <li className="nav-item">
-                                                <span className="nav-link" onClick={this.logoutUser}>{user.email}</span>
-                                            </li>
+                                            <React.Fragment>
+                                                <li className="nav-item">
+                                                    <span className="nav-link">
+                                                        <span className="oi oi-cart" style={{marginRight: "5px"}}/>
+                                                        Cart ({user.profile ? user.profile.cart.length : 0})
+                                                    </span>
+                                                </li>
+                                                <TelemNavLink active={path === '/settings'}
+                                                              handler={() => this.handleNav('/settings')}
+                                                              {...BUTTON_TELEMETRY.NAV_SETTINGS_LINK}>
+                                                    Settings
+                                                </TelemNavLink>
+                                                <li className="nav-item">
+                                                    <span className="nav-link"
+                                                          onClick={this.logoutUser}>{user.email}</span>
+                                                </li>
+                                            </React.Fragment>
+
                                         ) : (
                                             <li className="nav-item">
                                                 <TelemGeneric handler={toggleAuthModal}
@@ -122,7 +121,6 @@ class Navbar extends Component {
                                     }
                                 </React.Fragment>
                             )
-
                         }
                     </ul>
                 </div>

@@ -17,6 +17,24 @@ const BUTTON_TELEMETRY = {
             label: 'register',
         }
     },
+    CHANGE_PASS_BUTTON: {
+        controlId: 'change_pass_button',
+        controlType: 'mutation',
+        actionType: 'click',
+        intent: {
+            completion: true,
+            label: 'change_password',
+        }
+    },
+    CHANGE_ADDRESS_BUTTON: {
+        controlId: 'change_address_button',
+        controlType: 'mutation',
+        actionType: 'click',
+        intent: {
+            completion: true,
+            label: 'change_address',
+        }
+    },
     DISPLAY_AUTH_BUTTON: {
         controlId: 'display_auth_button',
         controlType: 'navigation',
@@ -39,6 +57,11 @@ const BUTTON_TELEMETRY = {
     },
     NAV_PRODUCTS_LINK: {
         controlId: 'nav_products_link',
+        controlType: 'navigation',
+        actionType: 'click',
+    },
+    NAV_SETTINGS_LINK: {
+        controlId: 'nav_settings_link',
         controlType: 'navigation',
         actionType: 'click',
     },
