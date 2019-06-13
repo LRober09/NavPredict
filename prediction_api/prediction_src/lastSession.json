@@ -1,0 +1,51 @@
+{
+    "_id": "5d01cfd7b859660f244aa853",
+    "session": {
+        "intentLabel": null,
+        "interactions": [
+            {
+                "actionType": "click",
+                "controlId": "prod_detail_button_5cdb79181c9d4400002570d1",
+                "controlType": "navigation",
+                "dateTime": "2019-06-13T04:19:19.362Z",
+                "intent": {
+                    "completion": null,
+                    "label": null
+                }
+            },
+            {
+                "actionType": "click",
+                "controlId": "nav_products_button_5cdb79181c9d4400002570d1",
+                "controlType": "navigation",
+                "dateTime": "2019-06-13T04:20:45.674Z",
+                "intent": {
+                    "completion": null,
+                    "label": null
+                }
+            },
+            {
+                "actionType": "click",
+                "controlId": "prod_detail_button_5cdb798a1c9d4400002570d3",
+                "controlType": "navigation",
+                "dateTime": "2019-06-13T04:23:49.126Z",
+                "intent": {
+                    "completion": null,
+                    "label": null
+                }
+            },
+            {
+                "actionType": "click",
+                "controlId": "nav_products_button_5cdb798a1c9d4400002570d3",
+                "controlType": "navigation",
+                "dateTime": "2019-06-13T04:23:51.424Z",
+                "intent": {
+                    "completion": null,
+                    "label": null
+                }
+            }
+        ],
+        "sessionEndDateTime": null,
+        "sessionId": "h3v0jPH78VfWcf8Ps4Do",
+        "userId": "5d01c5bbde785d30d4736099"
+    }
+}
