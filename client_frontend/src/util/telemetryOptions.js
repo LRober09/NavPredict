@@ -69,6 +69,16 @@ const BUTTON_TELEMETRY = {
         controlId: 'prod_detail_button',
         controlType: 'navigation',
         actionType: 'click'
+    },
+    PROD_ADD_CART_BUTTON: {
+        controlId: 'prod_add_cart_button',
+        controlType: 'mutation',
+        actionType: 'click',
+    },
+    PROD_REM_CART_BUTTON: {
+        controlId: 'prod_rem_cart_button',
+        controlType: 'mutation',
+        actionType: 'click',
     }
 };
 

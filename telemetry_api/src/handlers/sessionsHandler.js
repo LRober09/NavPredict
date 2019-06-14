@@ -4,7 +4,7 @@ const sessionsMongo = require('../db/sessionsMongo');
 const requestCluster = require('../requests/predictionRequests').requestCluster;
 
 
-const addSessionHandler = (req, res) => {
+const closeSessionHandler = (req, res) => {
     const session = req.body;
     if (session) {
         sessionsMongo.closeSession(session, (err) => {
@@ -21,7 +21,16 @@ const addSessionHandler = (req, res) => {
                 sessionsMongo.addIntent(intent, (upsetIntentErr) => {
                     if (!upsetIntentErr) {
                         requestCluster(session, (result) => {
-                            rUtil.endResponse(rUtil.codes.OK, result, res);
+                            sessionsMongo.getIntent(result.nextIntent, (getIntentErr, intentResult) => {
+                                if (!getIntentErr) {
+                                    rUtil.endResponse(rUtil.codes.OK, {
+                                        controlId: intentResult.controlId,
+                                        ...result
+                                    }, res);
+                                } else {
+                                    rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: err}, res);
+                                }
+                            });
                         }, (err) => {
                             console.log('Error: ', err);
                             rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: 'Server error while querying prediction API'}, res);
@@ -58,7 +67,7 @@ const updateSessionHandler = (req, res) => {
 };
 
 const SessionsHandler = {
-    post: addSessionHandler,
+    post: closeSessionHandler,
     patch: updateSessionHandler,
 };
 

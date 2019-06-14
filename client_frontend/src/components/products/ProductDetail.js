@@ -62,7 +62,6 @@ class ProductDetail extends Component {
 
     render() {
         const {product} = this.state;
-        console.log(this.context);
         return (
             <Container>
                 {

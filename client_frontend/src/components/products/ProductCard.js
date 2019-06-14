@@ -50,7 +50,7 @@ class ProductCard extends Component {
 
     render() {
         const {product, add, ...props} = this.props;
-        const inCart = this.context.user.profile.cart.indexOf(product.id) !== -1;
+        const inCart = this.context.user.profile && this.context.user.profile.cart.indexOf(product.id) !== -1;
         return (
             <div className="card" {...props}>
                 <img className="card-img-top" src={product.imgUrl} alt={product.name} style={{height: '300px'}}/>
@@ -70,13 +70,24 @@ class ProductCard extends Component {
                         </TelemButton>
                         {
                             product.stock > 0 ? inCart ? (
-                                <Button color="danger" block onClick={this.handleRemove} outline disabled={this.state.isSubmitting}>
+                                <TelemButton color="danger"
+                                             block
+                                             handler={this.handleRemove}
+                                             outline
+                                             disabled={this.state.isSubmitting}
+                                             controlIdSuffix={product._id}
+                                             {...BUTTON_TELEMETRY.PROD_REM_CART_BUTTON}>
                                     <span className="oi oi-x"/> Remove from Cart
-                                </Button>
+                                </TelemButton>
                             ) : (
-                                <Button color="primary" block onClick={this.handleAdd}
-                                        disabled={this.state.isSubmitting}><span
-                                    className="oi oi-cart"/> Add to Cart</Button>
+                                <TelemButton color="primary"
+                                             block
+                                             handler={this.handleAdd}
+                                             disabled={this.state.isSubmitting}
+                                             controlIdSuffix={product._id}
+                                             {...BUTTON_TELEMETRY.PROD_ADD_CART_BUTTON}>
+                                    <span className="oi oi-cart"/> Add to Cart
+                                </TelemButton>
                             ) : (
                                 <Button block color="danger" outline disabled>Out of Stock</Button>
                             )

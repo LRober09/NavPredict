@@ -8,7 +8,6 @@ const addHandler = (req, res) => {
     const productId = req.body.productId;
     usersMongo.addToCart(token, productId, (err, result) => {
         if (!err) {
-            console.log('returning', result);
             rUtil.endResponse(rUtil.codes.OK, result, res);
         } else {
             rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: err}, res);
@@ -21,7 +20,6 @@ const removeHandler = (req, res) => {
     const productId = req.body.productId;
     usersMongo.removeFromCart(token, productId, (err, result) => {
         if (!err) {
-            console.log('returning', result);
             rUtil.endResponse(rUtil.codes.OK, result, res);
         } else {
             rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: err}, res);

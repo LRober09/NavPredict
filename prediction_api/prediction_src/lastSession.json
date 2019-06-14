@@ -1,21 +1,31 @@
 {
-    "_id": "5d01fce5f050f643ac466050",
+    "_id": "5d02146a42a07f096820ff0b",
     "session": {
-        "intentLabel": null,
+        "intentLabel": "register",
         "interactions": [
             {
                 "actionType": "click",
-                "controlId": "nav_products_button_5cdb798a1c9d4400002570d3",
+                "controlId": "display_auth_button",
                 "controlType": "navigation",
-                "dateTime": "2019-06-13T07:36:05.456Z",
+                "dateTime": "2019-06-13T09:14:12.990Z",
                 "intent": {
                     "completion": null,
                     "label": null
                 }
+            },
+            {
+                "actionType": "click",
+                "controlId": "register_button",
+                "controlType": "mutation",
+                "dateTime": "2019-06-13T09:16:26.261Z",
+                "intent": {
+                    "completion": true,
+                    "label": "register"
+                }
             }
         ],
-        "sessionEndDateTime": null,
-        "sessionId": "sQbwMWcgQVXYmVOa8bIw",
+        "sessionEndDateTime": "2019-06-13T09:16:26.261Z",
+        "sessionId": "lWmvRRpcGEKXa4CMqAkU",
         "userId": "5d01e9d3a131be1e908456ea"
     }
 }
