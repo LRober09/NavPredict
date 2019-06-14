@@ -4,7 +4,6 @@ import {TelemetryContextConsumer} from "../context/TelemetryContext";
 
 const withTelemetry = (WrappedComponent) => {
     const _withTelemetry = ({controlId, controlType, actionType, intent, ...otherProps}) => {
-        // const {controlId, controlType, actionType, intent} = props;
         return (
             <TelemetryContextConsumer>
                 {state => <WrappedComponent
@@ -15,6 +14,7 @@ const withTelemetry = (WrappedComponent) => {
                             controlId + (controlIdSuffix ? '_' + controlIdSuffix : ''),
                             controlType,
                             actionType,
+
                             intent
                         )
                     } {...otherProps} />}
@@ -49,3 +49,5 @@ const withTelemetry = (WrappedComponent) => {
 };
 
 export {withTelemetry};
+
+

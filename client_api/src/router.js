@@ -2,6 +2,7 @@ const authenticator = require('./handlers/authenticator');
 const ProductsHandler = require('./handlers/products/productsHandler');
 const ProductsDetailHandler = require('./handlers/products/productsDetailHandler');
 const UsersHandler = require('./handlers/users/usersHandler');
+const CartHandler = require('./handlers/users/cartHandler');
 const LoginHandler = require('./handlers/users/loginHandler');
 const LogoutHandler = require('./handlers/users/logoutHandler');
 const DefaultHandler = require('./handlers/defaultHandler');
@@ -22,8 +23,14 @@ const endpoints = {
     users: {
         endpoint: '/users',
         handler: UsersHandler,
-        methods: ['get', 'post'],
+        methods: ['get', 'post', 'patch'],
         authenticated: false,
+    },
+    cart: {
+        endpoint: '/cart',
+        handler: CartHandler,
+        methods: ['post', 'delete'],
+        authenticated: true,
     },
     login: {
         endpoint: '/login',

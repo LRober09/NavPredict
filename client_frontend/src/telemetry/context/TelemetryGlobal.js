@@ -33,6 +33,10 @@ const globalState = {
     initTelemetryService: initTelemetryService,
 };
 
+const requestQueue = {
+
+};
+
 /**
  * Returns the global state
  * @returns {{currentSession: {sessionEndDateTime: null, intentLabel: null, sessionId: null, userId: null, interactions: Array}, initTelemetryService: initTelemetryService, initialized: boolean, userId: null, telemetryApiUri: null}}
@@ -57,7 +61,7 @@ const generateNewSession = () => {
 };
 
 /**
- * Ends the current session, sets the intent of the session, and creates a request to the Telemetry API
+ * Ends the current session, sets the intent of the session, and uploads the session to the Telemetry API
  */
 const closeSession = (interaction) => {
     globalState.currentSession.interactions.push(interaction);
@@ -119,7 +123,6 @@ const updateSession = (interaction) => {
     }, () => {
         console.log('Pushing session to server: ', currentSession);
     });
-    // update API with session
 };
 
 const setUserId = (userId) => {

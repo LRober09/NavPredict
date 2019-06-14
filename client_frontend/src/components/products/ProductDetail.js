@@ -7,8 +7,11 @@ import Loader from '../common/Loader';
 
 import TelemButton from '../common/TelemButton';
 import {BUTTON_TELEMETRY} from "../../util/telemetryOptions";
+import {AppContext} from "../Context";
 
 import {formatUsd} from "../../util/format";
+import store from "store";
+import {addToUserCart, removeFromUserCart} from "../../requests/user";
 
 
 class ProductDetail extends Component {
@@ -16,6 +19,7 @@ class ProductDetail extends Component {
         super(props);
         this.state = {
             product: null,
+            isSubmitting: false,
         }
     }
 
@@ -30,12 +34,38 @@ class ProductDetail extends Component {
         })
     }
 
+    handleAddToCart = () => {
+        const token = store.get('token');
+        addToUserCart(token, this.state.product.id, (result) => {
+            this.context.setUser(result);
+        }, (err) => {
+            console.error(err);
+        }, () => {
+            this.setState({isSubmitting: true});
+        }, () => {
+            this.setState({isSubmitting: false});
+        });
+    };
+
+    handleRemoveFromCart = () => {
+        const token = store.get('token');
+        removeFromUserCart(token, this.state.product.id, (result) => {
+            this.context.setUser(result);
+        }, (err) => {
+            console.error(err);
+        }, () => {
+            this.setState({isSubmitting: true});
+        }, () => {
+            this.setState({isSubmitting: false});
+        });
+    };
+
     render() {
         const {product} = this.state;
         return (
             <Container>
                 {
-                    product ? (
+                    product && this.context.user.profile ? (
                         <React.Fragment>
                             <Row>
                                 <Col>
@@ -74,14 +104,20 @@ class ProductDetail extends Component {
                                                 </li>
                                             </ul>
                                         </div>
-
                                         <div className="card-footer">
-                                            {/*<Button block>Add to Cart</Button>*/}
-                                            <Button color="warning" outline block><span className="oi oi-star"/> Save
+                                            <Button color="warning" disabled outline block><span
+                                                className="oi oi-star"/> Save
                                                 for Later</Button>
                                             {
-                                                product.stock > 0 ? (
-                                                    <Button block><span className="oi oi-cart"/> Add to Cart</Button>
+                                                product.stock > 0 ? this.context.user.profile.cart.indexOf(product.id) !== -1 ? (
+                                                    <Button color="danger" block onClick={this.handleRemoveFromCart}
+                                                            outline disabled={this.state.isSubmitting}>
+                                                        <span className="oi oi-x"/> Remove from Cart
+                                                    </Button>
+                                                ) : (
+                                                    <Button color="primary" block onClick={this.handleAddToCart}
+                                                            disabled={this.state.isSubmitting}><span
+                                                        className="oi oi-cart"/> Add to Cart</Button>
                                                 ) : (
                                                     <Button block color="danger" outline disabled>Out of Stock</Button>
                                                 )
@@ -103,5 +139,7 @@ class ProductDetail extends Component {
         )
     }
 }
+
+ProductDetail.contextType = AppContext;
 
 export default ProductDetail;

@@ -93,28 +93,121 @@ const logoutUser = (token, callback) => {
                     token: null,
                 }
             }, (err) => {
-               if (!err) {
-                   callback(null);
-               } else {
-                   callback(err);
-               }
+                if (!err) {
+                    callback(null);
+                } else {
+                    callback(err);
+                }
             });
         }
     });
 };
 
+const updateUser = (token, user, callback) => {
+    if (!token || !user) {
+        callback('No user or token provided');
+    } else {
+        getUser(token, (err, result) => {
+            if (!err && result) {
+                const newUser = {
+                    email: result.email,
+                    passwordHash: user.passwordHash || result.passwordHash,
+                    phone: user.phone || result.phone,
+                    profile: {
+                        address: (user.profile && user.profile.address) || result.profile.address,
+                        cart: result.profile.cart,
+                        payment: (user.profile && user.profile.payment) || result.profile.payment,
+                    }
+                };
+
+                mongo.db.collection('users').updateOne({token: token}, {
+                    $set: newUser,
+                }, null, (err) => {
+                    if (!err) {
+                        callback(null);
+                    } else {
+                        console.log('Error: ', err);
+                        callback('Error while updating user');
+                    }
+                });
+            } else {
+                console.log('Error: ', err);
+                callback('Error while looking up user');
+            }
+        });
+    }
+};
+
+const addToCart = (token, productId, callback) => {
+    if (!token || !productId) {
+        callback('No token or productId provided');
+    } else {
+        getUser(token, (err, result) => {
+            if (!err && result) {
+                mongo.db.collection('users').findOneAndUpdate({token: token}, {
+                    $addToSet: {'profile.cart': productId}
+                }, {returnOriginal: false}, (updateErr, updateResult) => {
+                    if (!updateErr) {
+                        callback(null, updateResult.value);
+                    } else {
+                        console.log(updateErr);
+                        callback('Error while adding to cart');
+                    }
+                });
+            } else {
+                console.log(err);
+                callback('Error while looking up user');
+            }
+        });
+    }
+};
+
+const removeFromCart = (token, productId, callback) => {
+    if (!token || !productId) {
+        callback('No token or productId provided');
+    } else {
+        getUser(token, (err, result) => {
+            if (!err && result) {
+                mongo.db.collection('users').findOneAndUpdate({token: token}, {
+                    $pull: {'profile.cart': productId}
+                }, {returnOriginal: false}, (updateErr, updateResult) => {
+                    if (!updateErr) {
+                        callback(null, updateResult.value);
+                    } else {
+                        console.log(updateErr);
+                        callback('Error while removing from cart');
+                    }
+                });
+            } else {
+                console.log(err);
+                callback('Error while looking up user');
+            }
+        });
+    }
+};
+
 const authenticateUser = (token, callback) => {
     if (token === null || token === undefined) {
         callback(null, false);
+    } else {
+        mongo.db.collection('users').findOne({token: token}, (err, result) => {
+            if (!err) {
+                callback(null, result !== null);
+            } else {
+                callback(err);
+            }
+        });
     }
-
-    mongo.db.collection('users').findOne({token: token}, (err, result) => {
-        if (!err) {
-            callback(null, result !== null);
-        } else {
-            callback(err);
-        }
-    });
 };
 
-module.exports = {loginUser, logoutUser, createUser, getUser, getUserByEmail, authenticateUser};
+module.exports = {
+    loginUser,
+    logoutUser,
+    createUser,
+    getUser,
+    updateUser,
+    getUserByEmail,
+    authenticateUser,
+    addToCart,
+    removeFromCart
+};

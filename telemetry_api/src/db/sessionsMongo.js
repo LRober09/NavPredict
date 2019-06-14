@@ -37,4 +37,19 @@ const addIntent = (intent, callback) => {
     });
 };
 
-module.exports = {closeSession, updateSession, addIntent};
+const getIntent = (label, callback) => {
+    mongo.db.collection('intents').findOne({
+        label: label
+    }).then((result) => {
+        if (!result) {
+            throw new Error('Intent not found by label');
+        } else {
+            callback(null, result);
+        }
+    }).catch((err) => {
+        console.log('Error: ', err);
+        callback('Error while finding intent');
+    });
+};
+
+module.exports = {closeSession, updateSession, addIntent, getIntent};

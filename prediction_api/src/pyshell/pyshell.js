@@ -15,7 +15,8 @@ pyshell.executeClustering = (session, callback) => {
             args: [JSON.stringify(session)],
             scriptPath: clusterScriptPath,
         };
-        PythonShell.run('stubCluster.py', options, (err, results) => {
+        PythonShell.run('stubCluster.py',
+            options, (err, results) => {
            if (err) throw err;
            callback(null, JSON.parse(results));
         });
@@ -25,3 +26,5 @@ pyshell.executeClustering = (session, callback) => {
 
 
 module.exports = pyshell;
+
+

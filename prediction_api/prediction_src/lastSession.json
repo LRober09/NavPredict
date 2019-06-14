@@ -1,13 +1,13 @@
 {
-    "_id": "5d01cfd7b859660f244aa853",
+    "_id": "5d02146a42a07f096820ff0b",
     "session": {
-        "intentLabel": null,
+        "intentLabel": "register",
         "interactions": [
             {
                 "actionType": "click",
-                "controlId": "prod_detail_button_5cdb79181c9d4400002570d1",
+                "controlId": "display_auth_button",
                 "controlType": "navigation",
-                "dateTime": "2019-06-13T04:19:19.362Z",
+                "dateTime": "2019-06-13T09:14:12.990Z",
                 "intent": {
                     "completion": null,
                     "label": null
@@ -15,37 +15,17 @@
             },
             {
                 "actionType": "click",
-                "controlId": "nav_products_button_5cdb79181c9d4400002570d1",
-                "controlType": "navigation",
-                "dateTime": "2019-06-13T04:20:45.674Z",
+                "controlId": "register_button",
+                "controlType": "mutation",
+                "dateTime": "2019-06-13T09:16:26.261Z",
                 "intent": {
-                    "completion": null,
-                    "label": null
-                }
-            },
-            {
-                "actionType": "click",
-                "controlId": "prod_detail_button_5cdb798a1c9d4400002570d3",
-                "controlType": "navigation",
-                "dateTime": "2019-06-13T04:23:49.126Z",
-                "intent": {
-                    "completion": null,
-                    "label": null
-                }
-            },
-            {
-                "actionType": "click",
-                "controlId": "nav_products_button_5cdb798a1c9d4400002570d3",
-                "controlType": "navigation",
-                "dateTime": "2019-06-13T04:23:51.424Z",
-                "intent": {
-                    "completion": null,
-                    "label": null
+                    "completion": true,
+                    "label": "register"
                 }
             }
         ],
-        "sessionEndDateTime": null,
-        "sessionId": "h3v0jPH78VfWcf8Ps4Do",
-        "userId": "5d01c5bbde785d30d4736099"
+        "sessionEndDateTime": "2019-06-13T09:16:26.261Z",
+        "sessionId": "lWmvRRpcGEKXa4CMqAkU",
+        "userId": "5d01e9d3a131be1e908456ea"
     }
 }

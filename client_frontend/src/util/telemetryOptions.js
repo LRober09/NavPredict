@@ -17,6 +17,24 @@ const BUTTON_TELEMETRY = {
             label: 'register',
         }
     },
+    CHANGE_PASS_BUTTON: {
+        controlId: 'change_pass_button',
+        controlType: 'mutation',
+        actionType: 'click',
+        intent: {
+            completion: true,
+            label: 'change_password',
+        }
+    },
+    CHANGE_ADDRESS_BUTTON: {
+        controlId: 'change_address_button',
+        controlType: 'mutation',
+        actionType: 'click',
+        intent: {
+            completion: true,
+            label: 'change_address',
+        }
+    },
     DISPLAY_AUTH_BUTTON: {
         controlId: 'display_auth_button',
         controlType: 'navigation',
@@ -42,10 +60,25 @@ const BUTTON_TELEMETRY = {
         controlType: 'navigation',
         actionType: 'click',
     },
+    NAV_SETTINGS_LINK: {
+        controlId: 'nav_settings_link',
+        controlType: 'navigation',
+        actionType: 'click',
+    },
     PROD_DETAIL_BUTTON: {
         controlId: 'prod_detail_button',
         controlType: 'navigation',
         actionType: 'click'
+    },
+    PROD_ADD_CART_BUTTON: {
+        controlId: 'prod_add_cart_button',
+        controlType: 'mutation',
+        actionType: 'click',
+    },
+    PROD_REM_CART_BUTTON: {
+        controlId: 'prod_rem_cart_button',
+        controlType: 'mutation',
+        actionType: 'click',
     }
 };
 

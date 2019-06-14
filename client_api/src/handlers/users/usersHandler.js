@@ -46,9 +46,30 @@ const createUserHandler = (req, res) => {
     }
 };
 
+const updateUserHandler = (req, res) => {
+    const token = req.headers.token;
+    let newUser = Object.assign({}, req.body);
+    if (newUser.password) {
+        newUser.passwordHash = util.hashPassword(newUser.password);
+        delete newUser.password;
+    }
+    if (newUser.token) {
+        delete newUser.token;
+    }
+
+    usersMongo.updateUser(token, newUser, (err) => {
+        if (!err) {
+            rUtil.endResponse(rUtil.codes.OK, {}, res);
+        } else {
+            rUtil.endResponse(rUtil.codes.SERVER_ERROR, {Error: err}, res);
+        }
+    });
+};
+
 const UsersHandler = {
     get: getUserHandler,
     post: createUserHandler,
+    patch: updateUserHandler,
 };
 
 module.exports = UsersHandler;
